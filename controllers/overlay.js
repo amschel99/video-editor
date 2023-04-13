@@ -88,11 +88,11 @@ getDim().then((data)=>{
 
     // Handle events emitted by the child process
     ffmpegProcess.stdout.on('data', (data) => {
-     console.log(`processing your video.....`)
+     console.log(`processing your video.....${data}`)
     });
 
     ffmpegProcess.stderr.on('data', (data) => {
-      console.error(`ffmpeg stderr error encountered but still processing...`);
+      console.error(`ffmpeg stderr error ${data}`);
     });
 
     ffmpegProcess.on('close', (code) => {
