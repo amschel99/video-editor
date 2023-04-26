@@ -2,16 +2,18 @@
 import { spawn,exec } from 'child_process';
 import { mkdirSync } from 'fs';
 import multer from 'multer';
+import { Worker } from 'worker_threads';
 import { createReadStream } from 'fs';
 import { calculateDimensions } from '../helpers/dimensions.js';
 import { upload } from '../helpers/file-upload.js';
 // Define input and output file paths
 export const overlay = async (req, res) => {
+ 
   let videoWidth=0
   let imageWidth=0
   let videoHeight=0
   let imageHeight=0
-  const {x_offset, y_offset}=req.query
+  const {x_offset, y_offset,pad_width}=req.query
   let max_x;
   let max_y;
 
@@ -35,21 +37,17 @@ try{
     const outputPath = './outputs/output.mp4';
     function getDim () {
       return new Promise((resolve, reject) => {
-        Promise.all([
-          calculateDimensions(videoPath),
-          calculateDimensions(imagePath)
-        ]).then((dimensions) => {
-          const [videoDimensions, imageDimensions] = dimensions;
-          const videoWidth = videoDimensions[0];
-          const videoHeight = videoDimensions[1];
-          const imageWidth = imageDimensions[0];
-          const imageHeight = imageDimensions[1];
-          const max_x = videoWidth - imageWidth;
-          const max_y = videoHeight - imageHeight;
-          resolve([max_x, max_y]);
-        }).catch((e) => {
-          reject(e);
-        });
+       const worker=new Worker("./workers/calculatedims.js")
+       worker.postMessage({imagePath,videoPath})
+       worker.on('message',(message)=>{
+const {status,data}=message
+if(status==="ERR"){
+  reject(status)
+
+}
+const {max_x,max_y}=data
+resolve([max_x,max_y])
+     })
       });
     }
 getDim().then((data)=>{
@@ -110,9 +108,9 @@ getDim().then((data)=>{
     
 
 
-  });
+  })
 }
 catch(e){
-
+return res.status(500).send(`internal server error ${e.message}`)
 }
 };
