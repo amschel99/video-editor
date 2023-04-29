@@ -14,6 +14,7 @@ export const overlay = async (req, res) => {
   let imageWidth=0
   let videoHeight=0
   let imageHeight=0
+  let videoDuration;
   const {x_offset, y_offset, start_time, end_time}=req.query
   let max_x;
   let max_y;
@@ -52,12 +53,14 @@ if(status==="ERR"){
   reject(status)
 
 }
+
 const {max_x,max_y}=data
 resolve([max_x,max_y])
      })
       });
     }
 getDim().then((data)=>{
+ 
   const max_x=data[0]
   const max_y=data[1]
  
@@ -83,10 +86,12 @@ getDim().then((data)=>{
    
     outputPath,
   ];
+  const start=Number(start_time)
+  const end= Number(end_time)
   const args2 = [
     '-i', `${videoPath}`,
     '-i', `${imagePath}`,
-    '-filter_complex', `[0:v][1:v]overlay=${x_offset}:${y_offset}:enable='between(t,${start_time},${end_time})'[out]`,
+    '-filter_complex', `[0:v][1:v]overlay=${x_offset}:${y_offset}:enable='between(t,${start},${end})'[out]`,
     '-map', '[out]',
     `${outputPath}`
   ];
@@ -151,6 +156,7 @@ getDim().then((data)=>{
 
   })
 }
+
 catch(e){
 return res.status(500).send(`internal server error ${e.message}`)
 }

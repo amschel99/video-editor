@@ -44,7 +44,7 @@ This endpoint overlays an image or video onto a video file.
 
 ### Request
 
-``` curl -X POST -F "files=@/home/amschel/Downloads/cart.mp4" -F "files=@/home/amschel/Downloads/bot.jpeg" "http://localhost:5500/overlay?x_offset=10&y_offset=20" -o output.mp4```
+``` curl -X POST -F "files=@/home/amschel/Downloads/cart.mp4" -F "files=@/home/amschel/Downloads/bot.jpeg" "http://localhost:5500/overlay?x_offset=10&y_offset=20&start_time=5&end_time=10"```
 
 The first file should be the original video that you want to add an overlay onto. It should be the first file in the request i.e req.files[0]
 The second file should be the image or video that you want to use as an overlay. It should be the second in the request i.e req.file[1]

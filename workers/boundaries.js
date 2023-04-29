@@ -8,7 +8,7 @@ Promise.all(
     [calculateDimensions(imagePath),calculateDimensions(videoPath)]
 ).then((dimensions)=>{
 
-    const [imageDimensions, videoDimensions] = dimensions;
+    const [imageDimensions, videoDimensions,time] = dimensions;
     console.log(dimensions)
    
     const videoWidth = videoDimensions[0];

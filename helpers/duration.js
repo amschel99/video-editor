@@ -10,7 +10,7 @@ exec(`ffprobe -i ${filePath} -show_entries format=duration -v quiet -of csv="p=0
         reject(err);
       }
       const duration = parseFloat(stdout);
-      console.log(duration)
+      console.log("hey magic duration is " +duration)
 resolve(duration)
 })
 
