@@ -35,6 +35,8 @@ This endpoint overlays an image or video onto a video file.
 | files | File[] | Yes | An array of 2 files containing a video and an image or video to overlay. |
 | x_offset | Integer | Yes | The horizontal offset of the image/video to overlay relative to the top left corner of the original video frame |
 | y_offset | Integer | Yes | The vertical offset of the image/video to overlay relative to the top left corner of the original video frame|
+| start_time | Seconds | Yes | The time in seconds where the overlay of the video shoud start |
+| end_time | Seconds | Yes | The time in seconds where the overlay of the video shoud stop |
 
 
 
