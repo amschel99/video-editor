@@ -39,6 +39,8 @@ When you upload a video it's saved as 0.mp4. This way the application will be ab
 | --- | --- | --- | --- |
 | file | File | Yes | The resource file you want to upload |
 | fileIntent | String enum | Yes | The intent of the file e.g watermark, overlay  |
+
+
 Resource files are files that you want to use to edit the original video. This can be an image that you want to use as a watermark, a video that you want to overlay, an audio that you want to add to the original video, etc.You pass the intent of the resource file in the request query and the file will be saved with its intent as the filename. e.g If a file is to be used as an overlay, pass ```?fileIntent=overlay``` in the url endpoint.
 
 ##### Example request
