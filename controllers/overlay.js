@@ -5,7 +5,6 @@ import multer from 'multer';
 import { Worker } from 'worker_threads';
 import { createReadStream } from 'fs';
 import fs from "fs"
-import { uploadFiles } from './upload.js';
 
 export const overlay = async (req, res) => {
  
@@ -22,9 +21,22 @@ export const overlay = async (req, res) => {
 
 try{
 
-const {uploadStatus,uploadData}= await uploadFiles(req,res)
+ 
 
-const{videoPath, imagePath,outputPath}=uploadData
+  fs.readdir('./uploads', (err, files) => {
+    if (err) throw err;
+  
+    const videoFile = files.find(file => file.startsWith('0'));
+    const imageFile = files.find(file => file.startsWith('1'));
+  
+    const videoPath = `./uploads/${videoFile}`;
+    const imagePath = `./uploads/${imageFile}`;
+    const outputPath=`./outputs/output.mp4`
+  
+    console.log('Video Path:', videoPath);
+    console.log('Image Path:', imagePath);
+ 
+  
 
 
   
@@ -146,8 +158,9 @@ getDim().then((data)=>{
     
 
 
-  
+});
 }
+
 
 catch(e){
 return res.status(500).send(`internal server error ${e.message}`)
