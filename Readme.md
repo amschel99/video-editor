@@ -30,7 +30,7 @@ When you upload, a number suffix is added to the original file name such that th
 
 ##### Example request
 
-``` curl -X POST   "http://localhost:5500/overlay?x_offset=10&y_offset=20&start_time=5&end_time=20" ```
+``` curl -X POST -F "files=@/home/amschel/Downloads/cart.mp4" -F "files=@/home/amschel/Downloads/bot.jpeg" "http://localhost:5500/upload" ```
 
 ## Features
 1. [Overlay](#overlay)
