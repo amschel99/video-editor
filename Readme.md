@@ -18,7 +18,19 @@ Run the command ```npm install```to install the dependencies
        
 Run ``` npm run dev ``` to start the server using nodemon
 
-      
+ ## Uploading a video to edit
+ #### Endpoint : POST /upload
+ | Field | Type | Required | Description |
+| --- | --- | --- | --- |
+
+| files | File | Yes | The video file and any additional files you might want to upload e.g image files to overlay on top o the video. The original video file should be the first one to be uploaded. i.e req.files[0] | 
+
+When you upload, a number suffix is added to the original file name such that the first file starts with 0, the second with 1 and so on and so forth. The suffix is used to identify which file is which. The application is able to know the original video file by looking at the suffix.
+
+##### Example request
+
+``` curl -X POST   "http://localhost:5500/overlay?x_offset=10&y_offset=20&start_time=5&end_time=20" ```
+
 ## Features
 1. [Overlay](#overlay)
 
@@ -32,7 +44,7 @@ This endpoint overlays an image or video onto a video file.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| files | File[] | Yes | An array of 2 files containing a video and an image or video to overlay. |
+
 | x_offset | Integer | Yes | The horizontal offset of the image/video to overlay relative to the top left corner of the original video frame |
 | y_offset | Integer | Yes | The vertical offset of the image/video to overlay relative to the top left corner of the original video frame|
 | start_time | Seconds | Yes | The time in seconds where the overlay of the video shoud start |
