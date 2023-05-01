@@ -72,7 +72,7 @@ This endpoint overlays an image or video onto a video file.
 
 ``` curl -X POST   "http://localhost:5500/overlay?x_offset=10&y_offset=20&start_time=5&end_time=20"```
 
-The application will look in a folder called uploads for a file whose name is suffixed with 0-. This file will be  treated as the the original video file to be edited. The file whose name starts with overlay will be used as the file to be added as an overlay.
+The application will look in a folder called uploads for a file whose name is suffixed with 0-. This file will be  treated as the the original video file to be edited. The file whose name starts with ```overlay-``` will be used as the file to be added as an overlay.
 The latter can be a video or image.
 
 
