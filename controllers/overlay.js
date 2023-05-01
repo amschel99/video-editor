@@ -5,9 +5,8 @@ import multer from 'multer';
 import { Worker } from 'worker_threads';
 import { createReadStream } from 'fs';
 import fs from "fs"
+import { uploadFiles } from './upload.js';
 
-import { upload } from '../helpers/file-upload.js';
-// Define input and output file paths
 export const overlay = async (req, res) => {
  
   let videoWidth=0
@@ -23,20 +22,13 @@ export const overlay = async (req, res) => {
 
 try{
 
+const {uploadStatus,uploadData}= await uploadFiles(req,res)
+
+const{videoPath, imagePath,outputPath}=uploadData
 
 
-  // Call the multer instance to receive the video file from the user
-  upload(req, res, async function (err) {
-    if (err) {
-      // Handle any error occurred while receiving the video file
-      console.log('Error occurred while uploading file: ', err);
-      return res.status(500).json({ message: 'Failed to upload file.' });
-    }
-
-    // Define the input and output file paths
-    const videoPath = `./uploads/${req.files[0].filename}`;
-    const imagePath = `./uploads/${req.files[1].filename}`
-    const outputPath = './outputs/output.mp4';
+  
+    
     function getDim () {
       return new Promise((resolve, reject) => {
        const worker=new Worker("./workers/boundaries.js")
@@ -154,7 +146,7 @@ getDim().then((data)=>{
     
 
 
-  })
+  
 }
 
 catch(e){
