@@ -19,18 +19,31 @@ Run the command ```npm install```to install the dependencies
 Run ``` npm run dev ``` to start the server using nodemon
 
  ## Uploading a video to edit
- #### Endpoint : POST /upload
+ #### Endpoint : POST /upload/main
  
  | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| files | File | Yes | The video file and any additional files you might want to upload e.g image files to overlay on top of the video. The original video file should be the first one to be uploaded. i.e req.files[0] |
+| video | File | Yes | The video file you want to upload |
 
 
-When you upload, a number suffix is added to the original file name such that the first file starts with 0, the second with 1 and so on and so forth. The suffix is used to identify which file is which. The application is able to know the original video file by looking at the suffix.
+When you upload a video it's saved as 0.mp4. This way the application will be able to distinguish the video file the other files. 
 
 ##### Example request
 
-``` curl -X POST -F "files=@/home/amschel/Downloads/cart.mp4" -F "files=@/home/amschel/Downloads/bot.jpeg" "http://localhost:5500/upload" ```
+``` curl -X POST -F "video=@/home/amschel/Downloads/cart.mp4"  "http://localhost:5500/upload/main" ```
+
+## Uploading Resource files
+#### Endpoint: POST /video/resource
+
+ | Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| file | File | Yes | The resource file you want to upload |
+| fileIntent | String enum | Yes | The intent of the file e.g watermark, overlay  |
+Resource files are files that you want to use to edit the original video. This can be an image that you want to use as a watermark, a video that you want to overlay, an audio that you want to add to the original video, etc.You pass the intent of the resource file in the request query and the file will be saved with its intent as the filename. e.g If a file is to be used as an overlay, pass ```?fileIntent=overlay``` in the url endpoint.
+
+##### Example request
+
+``` curl -X POST   -H "Content-Type: multipart/form-data"   -F "file=@/home/amschel/Downloads/bot.jpeg"   -F "fileType=overlay"   "http://localhost:5500/upload/resource?fileType=overlay" ```
 
 ## Features
 1. [Overlay](#overlay)
@@ -57,7 +70,7 @@ This endpoint overlays an image or video onto a video file.
 
 ``` curl -X POST   "http://localhost:5500/overlay?x_offset=10&y_offset=20&start_time=5&end_time=20"```
 
-The application will look in a folder called uploads for a file whose name is suffixed with 0. This file will be  treated as the the original video file to be edited. The file whose name is suffixed with 1 will be used as the file to be added as an overlay.
+The application will look in a folder called uploads for a file whose name is suffixed with 0-. This file will be  treated as the the original video file to be edited. The file whose name starts with overlay will be used as the file to be added as an overlay.
 The latter can be a video or image.
 
 

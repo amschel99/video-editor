@@ -1,11 +1,11 @@
-import { uploadFiles } from '../helpers/upload.js';
+import { uploadVideo } from '../helpers/upload.js';
 
-export const upload= async (req,res)=>{
+export const uploadMainVideo= async (req,res)=>{
     try{
-        const {uploadStatus,uploadData}= await uploadFiles(req,res)
+        const {uploadStatus,uploadData}= await uploadVideo(req,res)
 
-        const{videoPath, imagePath,outputPath}=uploadData
-        res.json({videoPath,imagePath,outputPath})
+        const{videoPath,outputPath}=uploadData
+        res.json({videoPath,outputPath})
     }
     catch(err){
 res.json(err.message)

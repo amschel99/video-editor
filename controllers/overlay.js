@@ -26,8 +26,11 @@ try{
   fs.readdir('./uploads', (err, files) => {
     if (err) throw err;
   
-    const videoFile = files.find(file => file.startsWith('0'));
-    const imageFile = files.find(file => file.startsWith('1'));
+    const videoFile = files.find(file => file.startsWith('0-'));
+    const imageFile = files.find(file => file.startsWith('overlay-'));
+    if(!videoFile || !imageFile){
+      return res.status(400).json(`a resource is missing`)
+    }
   
     const videoPath = `./uploads/${videoFile}`;
     const imagePath = `./uploads/${imageFile}`;

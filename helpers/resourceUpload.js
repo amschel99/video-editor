@@ -1,9 +1,9 @@
-import { upload } from './file-upload-helper.js';
+import { upload } from './resources-upload-helper.js';
 
-let videoPath;
-const outputPath = './outputs/output.mp4';
+let resourceFilePath;
 
-export const uploadVideo = async (req, res) => {
+
+export const uploadResourceFile = async (req, res) => {
   try {
     // Wrap the upload function inside a Promise
     const uploadPromise = new Promise((resolve, reject) => {
@@ -14,10 +14,11 @@ export const uploadVideo = async (req, res) => {
           reject(err);
         }
   
-        // Define the input and output file paths
-        videoPath = `./uploads/${req.file.filename}`;
+        console.log(JSON.stringify(req.file))
+        resourceFilePath = `./uploads/${req.file.filename}`;
+        
    
-        resolve({ uploadStatus: "OK", uploadData: { videoPath, outputPath } });
+        resolve({ uploadStatus: "OK", uploadData: { resourceFilePath } });
       });
     });
 
